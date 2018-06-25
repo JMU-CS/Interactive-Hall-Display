@@ -1,7 +1,7 @@
 body {
     margin: 0px;
     padding: 0px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Helvetica Neue', AppleGothic, sans-serif;
     font-size:20px;
     color: #444;
   }
@@ -19,16 +19,8 @@ body {
   }
   
   #container {
-    width: 800px;
-    background-color:rgba(0,0,0,0.85);
-    position: absolute;
-    padding: 2em;
-    padding-top: 0;
-    color:white;
-    right: 2em;
-    -webkit-backdrop-filter: blur(5px);
-    height: 100%;
-    font-size: 24pt;
+      height: 100%;
+      width: 100%;
   }
   
   #logo {
@@ -76,19 +68,15 @@ body {
   a.nounderline:hover {
       border: none;
   }
-
-  @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-  @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-  @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-
   html, body { 
       background-color: rgba(0,0,0,0);
       color: white;
   }
 
   h1, h2, h3 {
-      font-family: 'Yanone Kaffeesatz';
       font-weight: normal;
+
+    font-family: 'Futura', AppleGothic, sans-serif;
   }
 
   h1 {
@@ -96,3 +84,52 @@ body {
       padding-top: 0;
       margin-top: 0;
   }
+
+.slide {position:absolute; display:none;}
+.current {display:block;}
+
+.left-side {
+    width: 800px;
+    background-color:rgba(0,0,0,0.85);
+    -webkit-backdrop-filter: blur(5px);
+    position: fixed;
+    padding: 2em;
+    padding-top: 0;
+    color:white;
+    height: 100%;
+    font-size: 24pt;
+    
+    z-index: 100;
+    top: 0;
+    left: 2em;
+}
+
+.right-side {
+    width: 800px;
+    background-color:rgba(0,0,0,0.85);
+    -webkit-backdrop-filter: blur(5px);
+    position: fixed;
+    padding: 2em;
+    padding-top: 0;
+    color:white;
+    height: 100%;
+    font-size: 24pt;
+    
+    z-index: 100;
+    top: 0;
+    right: 2em;
+}
+.fullscreen {
+    position: fixed; 
+    width: -webkit-calc(100% - 2em); 
+    height: -webkit-calc(100% - 2em); 
+    width: calc(100% - 2em); 
+    height: calc(100% - 2em); 
+    z-index: 100; 
+    left: 0; 
+    top: 0; 
+    margin: 1em;
+}
+.translucent {
+    background-color:rgba(0,0,0,0.85);
+}

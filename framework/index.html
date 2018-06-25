@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <title>p5.play - a game library for p5.js</title>
+    <title>JMU Computer Science</title>
     <meta name="description" content="Make online games and playful applications with this library">
-    <meta property="og:title" content="p5.play - a game library for p5.js" />
+    <meta property="og:title" content="JMU Computer Science" />
     <meta property="og:image" content="http://p5play.molleindustria.org/og-image.jpg" />
     <meta property="og:description" content="Make online games and playful applications with this library" />
 
@@ -12,6 +12,7 @@
     <script src="lib/p5.js" type="text/javascript"></script>
     <script src="lib/p5.play.js" type="text/javascript"></script>
     <script src="lib/player.js" type="text/javascript"></script>
+    <script src="lib/markdown.min.js" type="text/javascript"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
     <!--script src="games/sketch.js" type="text/javascript"></script-->
@@ -26,50 +27,19 @@
 
     <div id="container">
 
-        <div id="logo"></div>
-
-        <!-- div id="navMenu">
-            <a href="https://github.com/molleindustria/p5.play/archive/master.zip" target="_blank">Download</a> *
-            <a href="examples/index.html" target="_blank">Examples</a> *
-            <a href="https://github.com/molleindustria/p5.play/wiki/Get-Started" target="_blank">Get Started</a> *
-            <a href="docs/index.html" target="_blank">Reference</a> *
-            <a href="https://github.com/molleindustria/p5.play/" target="_blank">Source on Github</a>
-        </div-->
-
-        <h1>
-            JMU Computer Science
-        </h1>
-
-        <!--p>
-            <ul>
-                    <li><a href="?sketch=sketch">Red/Blue</a></li>
-                    <li><a href="?sketch=sketch2">Green/Blue</a></li>
-            </ul>
-        </p-->
 
         <div id="slides">
-            <div>
-                <h2>Competitive Programming Club</h2>
-
-                <p>Come join us for friendly weekly programming competitions. Competitive programming is a time-limited competition
-                    in which you quickly design and code working solutions to computational problems. </p>
-                <p>
-                    It's a great way to sharpen your coding skills and also learn to code under pressure. It's also great preparation for technical
-                    coding interviews.
-                </p>
-                <p>
-                    The club meets on
-                    <strong>Fridays from 3:30-5:00 in ISAT/CS 248</strong>. All welcome!
-                </p>
-                <p>Email Profs. Bowers or Lam for more information.
-                </p>
+            <div id="theSlides">
+                
             </div>
+        </div>
 
-            <div>
-                <h2>chat.cs.jmu.edu</h2>
-                <p>Join the CS discussion board at chat.cs.jmu.edu!</p>
-                <p>Click on "GitLab" and sign in with your eid.</p>
-            </div>
+        <h1 style="z-index: 200; margin-bottom: 0; left: 0.5em; bottom: 25px; position:absolute;">
+            JMU CompSci
+        </h1>
+
+        <div style="z-index: 200; right: 1.5em; bottom: 25px; position:absolute;">
+            Interact with this presentation @ (coming soon).
         </div>
 
     </div>
@@ -99,6 +69,41 @@
                 error: loadLibrariesDefault
             });
 
+            // Load the slides
+            $('#theSlides').load('./slides.html', function () {
+
+                var divs = $('#theSlides div.slide');
+                var duration = 10000;
+
+                function fade() {
+                    var current = $('.current');
+                    
+                    var currentIndex = divs.index(current),
+                        nextIndex = currentIndex + 1;
+                    
+                    if (currentIndex == -1) {
+                        current = divs.eq(currentIndex);
+                    }
+
+                    if (nextIndex >= divs.length) {
+                        nextIndex = 0;
+                    }
+
+                    var next = divs.eq(nextIndex);
+
+                    next.stop().fadeIn(2000, function() {
+                        $(this).addClass('current');
+                    });
+
+                    current.stop().fadeOut(2000, function() {
+                        $(this).removeClass('current');
+                        setTimeout(fade, duration);
+                    });
+                }
+
+                fade();
+            });
+
         });//doc ready
 
         function getUrlValue(varSearch) {
@@ -113,7 +118,6 @@
                 }
             }
         }
-
 
         function loadLibrariesDefault() {
             alert("An error occurred.");

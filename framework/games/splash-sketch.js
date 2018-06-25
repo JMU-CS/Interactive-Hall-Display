@@ -2,14 +2,15 @@
 //arrow keys to move + x to shoot
 
 class Sparkler {
-    constructor(speed, color) {
-        this.speed = speed;
+    constructor() {
+        this.speed = Math.random()*5+1;
         var theta = Math.random() * 2 * Math.PI;
-        this.vx = Math.cos(theta) * speed;
-        this.vy = Math.sin(theta) * speed;
+        this.vx = Math.cos(theta) * this.speed;
+        this.vy = Math.sin(theta) * this.speed;
         this.px = Math.random()*windowWidth;
         this.py = Math.random()*windowHeight;
-        this.color = color;
+        this.color = Math.random()*255;
+        this.color_speed = (Math.random() - 0.5);
     }
 
     update() {
@@ -37,14 +38,23 @@ class Sparkler {
           this.vx = this.vx * Math.cos(theta) - this.vy * Math.sin(theta);
           this.vy = this.vx * Math.sin(theta) + this.vy * Math.cos(theta);
         }
+        this.color += this.color_speed;
+        if (this.color < 0) this.color += 255;
+        if (this.color > 255) this.color -= 255;
+      }
+
+      drawAt(x, y) {
+        drawCircles(x, y, color(Math.round(this.color), 255, 255));
       }
 
       draw() {
-          drawCircles(this.px, this.py, this.color);
+        this.drawAt(this.px, this.py);
       }
+
 }
 
 var sparklers = [];
+var mouseSparkler = new Sparkler();
 
 function setup() {
   var canv = createCanvas(windowWidth, windowHeight);
@@ -52,8 +62,7 @@ function setup() {
   
   colorMode(HSB, 255);
   for (var i = 0; i < 3; i++) {
-    sparklers.push(new Sparkler(Math.random()*5+1, 
-                                color(Math.random()*255, 255, 255)));
+    sparklers.push(new Sparkler());
   }
 }
 
@@ -76,7 +85,7 @@ function drawCircles(cx, cy, fillColor) {
   }
 }
 
-var mouseColor = color(Math.random()*255, 255, 255);
+var mouseColor;
 
 function draw() {
   background(255,255,0);
@@ -88,7 +97,7 @@ function draw() {
       sparklers[i].draw();
   }
 
-  drawCircles(mouseX, mouseY, mouseColor);
+  mouseSparkler.drawAt(mouseX, mouseY);
 
   drawSprites();
 
@@ -100,6 +109,7 @@ function update() {
     for (var i = 0; i < sparklers.length; i++) {
       sparklers[i].update();
     }
+    mouseSparkler.update();
 
 }
 
