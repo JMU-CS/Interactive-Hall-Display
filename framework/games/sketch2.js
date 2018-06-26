@@ -1,6 +1,8 @@
 //asteroid clone (core mechanics only)
 //arrow keys to move + x to shoot
 
+function gameMessageHandler(msg) {
+}
 
 var speed = 5;
 var vx = speed;
@@ -35,7 +37,7 @@ function drawCircles(cx, cy, fillColor) {
 }
 
 function draw() {
-  background(0);
+  background(255);
   fill(254, 190, 190);
   textAlign(RIGHT);
   textSize(12);

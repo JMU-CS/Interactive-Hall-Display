@@ -3,16 +3,13 @@
 
 <head>
     <title>JMU Computer Science</title>
-    <meta name="description" content="Make online games and playful applications with this library">
-    <meta property="og:title" content="JMU Computer Science" />
-    <meta property="og:image" content="http://p5play.molleindustria.org/og-image.jpg" />
-    <meta property="og:description" content="Make online games and playful applications with this library" />
 
     <script src="lib/jquery.min.js" type="text/javascript"></script>
     <script src="lib/p5.js" type="text/javascript"></script>
     <script src="lib/p5.play.js" type="text/javascript"></script>
     <script src="lib/player.js" type="text/javascript"></script>
-    <script src="lib/markdown.min.js" type="text/javascript"></script>
+
+    <script src = "/socket.io/socket.io.js"></script>
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
     <!--script src="games/sketch.js" type="text/javascript"></script-->
@@ -49,6 +46,27 @@
 
         var fileName;
         var originalCode;
+        var currentSlideIndex = -1;
+
+        var socket = io("/player");
+        
+        socket.on(
+            "game message", 
+            function(msg) {
+                if (theGameMessageHandler != null) {
+                    theGameMessageHandler(msg);
+                } else {
+                    console.log("Null game message handler.");
+                }
+            }
+        )
+
+        socket.on(
+            "load game", 
+            function(msg) {
+                window.location.href="?sketch=" + msg + "&slide=" + currentSlideIndex;
+            }
+        )
 
         //load a script
         $(document).ready(function () {
@@ -56,6 +74,7 @@
             var searchString = window.location.search.substring(1);
             var variableArray = searchString.split('&');
             fileName = getUrlValue("sketch");
+            currentSlideIndex = getUrlValue("slide");
 
             if (fileName == undefined)
                 fileName = "splash-sketch";
@@ -78,16 +97,21 @@
                 function fade() {
                     var current = $('.current');
                     
-                    var currentIndex = divs.index(current),
-                        nextIndex = currentIndex + 1;
-                    
+                    var currentIndex = divs.index(current);
+
+                    var nextIndex = currentIndex + 1;
+
                     if (currentIndex == -1) {
                         current = divs.eq(currentIndex);
+                        nextIndex = currentSlideIndex;
+                        divs.eq(nextIndex).show();
                     }
 
                     if (nextIndex >= divs.length) {
                         nextIndex = 0;
                     }
+
+                    currentSlideIndex = nextIndex;
 
                     var next = divs.eq(nextIndex);
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JMU CS Controller</title>
+    <meta name="description" content="JMU Monitor Controller">
+
+    <script src="lib/jquery.min.js" type="text/javascript"></script>
+
+    <script src = "/socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="controller-style.css">
+
+</head>
+
+<body>
+    <script>
+
+        var socket = io("/controller");
+        
+        socket.on(
+            "ctrl message", 
+            function(msg) {
+                
+            }
+        )
+
+        function loadGame(gameName) {
+            alert("loading game: '" + gameName + "'");
+            socket.emit("load game", gameName);
+        }
+
+    </script>
+
+    <nav>
+        <ul>
+            <li><a href="#" onclick="loadGame('splash-sketch');">Dots One</a></li>
+            <li><a href="#" onclick="loadGame('sketch2');">Dots Two</a></li>
+        </ul>
+    </nav>
+
+
+
+
+</body>
+
+</html>

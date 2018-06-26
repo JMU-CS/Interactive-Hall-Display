@@ -1,5 +1,11 @@
 //asteroid clone (core mechanics only)
 //arrow keys to move + x to shoot
+var whiteBackground = false;
+
+function gameMessageHandler(msg) {
+  console.log("message received: " + msg);
+  whiteBackground = !whiteBackground;
+}
 
 class Sparkler {
     constructor() {
@@ -85,10 +91,11 @@ function drawCircles(cx, cy, fillColor) {
   }
 }
 
-var mouseColor;
-
 function draw() {
-  background(255,255,0);
+  if (whiteBackground) 
+    background(255,0,255);
+  else 
+    background(255,255,0);
   fill(254, 190, 190);
   textAlign(RIGHT);
   textSize(12);
