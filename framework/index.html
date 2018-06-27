@@ -2,189 +2,142 @@
 <html>
 
 <head>
-    <title>JMU Computer Science</title>
+    <title>JMU CS Controller</title>
+    <meta name="description" content="JMU Monitor Controller">
 
     <script src="lib/jquery.min.js" type="text/javascript"></script>
-    <script src="lib/p5.js" type="text/javascript"></script>
-    <script src="lib/p5.play.js" type="text/javascript"></script>
-    <script src="lib/player.js" type="text/javascript"></script>
 
     <script src = "/socket.io/socket.io.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-    <!--script src="games/sketch.js" type="text/javascript"></script-->
+    <!-- link rel="stylesheet" type="text/css" href="controller-style.css" -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body, html {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            position: fixed;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .hidden { display: none; }
 
+        div.game-controller {
+            height: 100%;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            background-color: black;
+            z-index: 100;
+            margin: 0;
+            color: white;
+        }
+
+        nav ul {
+            list-style-type:none;
+            margin:0;
+            padding:0;
+        }
+        nav ul li {
+            display: block;
+            border-bottom: 1px solid #4e0492;
+            height: 3em;
+            line-height: 12px;
+            text-align: center;
+        }
+        nav ul li a {
+            display: inline-block;  
+            vertical-align: middle;  
+            text-decoration: none;
+            color: #4e0492;
+        }
+        nav ul li:before{
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            height: 100%;       
+        }
+
+            
+    </style>
 </head>
 
 <body>
-
-    <div id="bgCanvas"></div>
-
-    <div id="container">
-
-
-        <div id="slides">
-            <div id="theSlides">
-                
-            </div>
-        </div>
-
-        <h1 style="z-index: 200; margin-bottom: 0; left: 0.5em; bottom: 25px; position:fixed;">
-            JMU CompSci
-        </h1>
-
-        <div style="z-index: 200; right: 1.5em; bottom: 25px; position:fixed;">
-            Interact with this presentation @ (coming soon).
-        </div>
-
-    </div>
-
-
     <script>
+        
 
-        var fileName;
-        var originalCode;
-        var currentSlideIndex = -1;
-
-        var socket = io("/player");
+        var socket = io("/controller");
         
         socket.on(
-            "game message", 
+            "ctrl message", 
             function(msg) {
-                if (theGameMessageHandler != null) {
-                    theGameMessageHandler(msg);
-                } else {
-                    console.log("Null game message handler.");
-                }
+                
             }
         )
 
-        socket.on(
-            "load game", 
-            function(msg) {
-                window.location.href="?sketch=" + msg + "&slide=" + currentSlideIndex;
-            }
-        )
+        function loadGame(gameName) {
+            socket.emit("load game", gameName);
+        }
 
-        socket.on(
-            "touch move",
-            function(msg) {
-                var pos = msg.split(" ");
-                var x = parseFloat(pos[0]);
-                var y = parseFloat(pos[1]);
-                touchMoveHandler(x,y);
-            }
-        )
+        var $cursor = undefined;
 
-        //load a script
-        $(document).ready(function () {
+        function startInteraction() {
+            $("#main-nav").hide();
+            $("#controller").show();
 
-            var searchString = window.location.search.substring(1);
-            var variableArray = searchString.split('&');
-            fileName = getUrlValue("sketch");
-            currentSlideIndex = getUrlValue("slide");
-            if (currentSlideIndex == undefined) {
-                currentSlideIndex = 0;
-            }
-
-            if (fileName == undefined)
-                fileName = "splash-sketch";
-
-            $.ajax({
-                type: "GET",
-                url: "games/" + fileName + ".js",
-                dataType: "text",
-                async: true,
-                success: loadLibraries,
-                error: loadLibrariesDefault
+            $cursor = $('<div/>').attr({
+                'id': 'cursor'
             });
 
-            // Load the slides
-            $('#theSlides').load('./slides.html', function () {
+            $("#controller").on('touchmove mousemove', function (e) {
 
-                var divs = $('#theSlides div.slide');
-                var duration = 10000;
+                var normalizedishEvent = e.originalEvent.touches ? e.originalEvent.touches["0"] : e;
 
-                function fade() {
-                    var current = $('.current');
-                    
-                    var currentIndex = divs.index(current);
+                $cursor.css({
+                    position: "fixed",
+                    top: Math.max(normalizedishEvent.clientY - 25,30),
+                    left:  normalizedishEvent.clientX - 25,
+                    display: 'block',
+                    zIndex: 300,
+                    width: 50,
+                    height: 50, 
+                    backgroundColor: "#ff0000"
+                });
 
-                    var nextIndex = currentIndex + 1;
-
-                    if (currentIndex == -1) {
-                        current = divs.eq(currentIndex);
-                        nextIndex = currentSlideIndex;
-                        divs.eq(nextIndex).show();
-                    }
-
-                    if (nextIndex >= divs.length) {
-                        nextIndex = 0;
-                    }
-
-                    currentSlideIndex = nextIndex;
-
-                    var next = divs.eq(nextIndex);
-
-                    next.stop().fadeIn(2000, function() {
-                        $(this).addClass('current');
-                    });
-
-                    current.stop().fadeOut(2000, function() {
-                        $(this).removeClass('current');
-                        setTimeout(fade, duration);
-                    });
-                }
-
-                fade();
+                socket.emit("touch move", "" + (normalizedishEvent.clientX/$(window).width()) + " " + (normalizedishEvent.clientY/$(window).height()));
             });
 
-        });//doc ready
-
-        function getUrlValue(varSearch) {
-            var searchString = window.location.search.substring(1);
-            var variableArray = searchString.split('&');
-
-            for (var i = 0; i < variableArray.length; i++) {
-                var keyValuePair = variableArray[i].split('=');
-                console.log(keyValuePair);
-                if (keyValuePair[0] == varSearch) {
-                    return keyValuePair[1];
-                }
-            }
+            $cursor.appendTo('#controller');
         }
 
-        function loadLibrariesDefault() {
-            alert("An error occurred.");
-        }
+        function endInteraction() {
+            $("#controller").hide();
+            $("#main-nav").show();
 
-        function loadLibraries(data) {
-            originalCode = data;
-
-            startMain();
-            console.log("example loaded");
-
-            $.ajax({
-                type: "GET",
-                url: "lib/p5.play.js",
-                dataType: "text",
-                async: true,
-                success: playEditor
-            });
-
-        }
-
-        function reset() {
-            playEditor();
-        }
-
-        function run() {
-            playEditor();
+            $("#controller").children().last().remove();
+            $("#controller").unbind("touchmove mousemove");
         }
 
     </script>
+
+    <nav id="main-nav">
+        <ul>
+            <li><a onclick="startInteraction();">Interact With Current Screen</a></li>
+            <li><a onclick="loadGame('splash-sketch');startInteraction();">Circles of Circles</a></li>
+            <li><a onclick="loadGame('draw');startInteraction();">Draw with friends</a></li>
+        </ul>
+    </nav>
+
+    <div id="controller" class="game-controller hidden">
+        <div style="position:fixed; top:0; text-align: center;">
+            <a onclick="endInteraction();">Back to menu</a>
+        </div>
+    </div>
+
+
+
 
 </body>
 
