@@ -9,8 +9,26 @@
 
     <script src = "/socket.io/socket.io.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="controller-style.css">
+    <!-- link rel="stylesheet" type="text/css" href="controller-style.css" -->
 
+    <style>
+        body, html {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .hidden { display: none; }
+        div.game-controller {
+            height: 100%;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            background-color: black;
+            z-index: 100;
+            margin: 0;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,14 +48,43 @@
             socket.emit("load game", gameName);
         }
 
+        function startInteraction() {
+            $("#main-nav").hide();
+            $("#controller").show();
+
+            var $img = $('<img/>').attr({
+                'id': 'cursor',
+                'src': 'http://www.nicenicejpg.com/50'
+            });
+
+            $("#controller").on('touchstart click', function (e) {
+
+                var normalizedishEvent = e.originalEvent.touches ? e.originalEvent.touches["0"] : e;
+
+                $img.css({
+                    top: normalizedishEvent.clientY - 25,
+                    left:  normalizedishEvent.clientX - 25,
+                    display: 'block'
+                });
+
+            });
+
+            $img.appendTo('#controller');
+        }
+
     </script>
 
-    <nav>
+    <nav id="main-nav">
         <ul>
+            <li><a href="#" onclick="startInteraction();">Interact</a></li>
             <li><a href="#" onclick="loadGame('splash-sketch');">Dots One</a></li>
             <li><a href="#" onclick="loadGame('sketch2');">Dots Two</a></li>
         </ul>
     </nav>
+
+    <div id="controller" class="game-controller hidden">
+    Test
+    </div>
 
 
 
