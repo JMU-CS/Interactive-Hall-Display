@@ -2,6 +2,9 @@ var p5functions = ['preload', 'setup', 'draw', 'keyPressed', 'keyReleased', 'key
 
 var activeSketch;
 var theGameMessageHandler = null;
+var touchDownHandler = function(x, y) {};
+var touchMoveHandler = function(x, y) {};
+var touchUpHandler = function(x, y) {};
 
 // adapted from p5js.org, originally by Lauren McCarthy
 // https://github.com/processing/p5.js-website/blob/master/js/render.js
@@ -23,6 +26,9 @@ function playCode(code) {
       with (p) {
         eval(runnable);
         theGameMessageHandler = gameMessageHandler;
+        if (typeof touchDown !== "undefined") { touchDownHandler = touchDown; }
+        if (typeof touchMove !== "undefined") { touchMoveHandler = touchMove; }
+        if (typeof touchUp !== "undefined") { touchUpHandler = touchUp; }
       }
 
       var fxns = p5functions;

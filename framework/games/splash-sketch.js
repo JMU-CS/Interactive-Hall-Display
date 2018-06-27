@@ -1,10 +1,15 @@
-//asteroid clone (core mechanics only)
-//arrow keys to move + x to shoot
 var whiteBackground = false;
 
 function gameMessageHandler(msg) {
   console.log("message received: " + msg);
   whiteBackground = !whiteBackground;
+}
+
+var touchX = 0, touchY = 0;
+
+function touchMove(x, y) {
+  touchX = x * windowWidth;
+  touchY = y * windowHeight;
 }
 
 class Sparkler {
@@ -104,7 +109,7 @@ function draw() {
       sparklers[i].draw();
   }
 
-  mouseSparkler.drawAt(mouseX, mouseY);
+  mouseSparkler.drawAt(touchX, touchY);
 
   drawSprites();
 

@@ -40,6 +40,12 @@ io.of("/controller").on('connection', function(socket) {
         }
     });
 
+    socket.on('touch move', function(msg) {
+        if (playerSocket != null) {
+            playerSocket.emit('touch move', msg);
+        }
+    })
+
     socket.on('disconnect', function () {
         console.log('A controller disconnected.');
     })

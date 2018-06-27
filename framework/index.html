@@ -31,11 +31,11 @@
             </div>
         </div>
 
-        <h1 style="z-index: 200; margin-bottom: 0; left: 0.5em; bottom: 25px; position:absolute;">
+        <h1 style="z-index: 200; margin-bottom: 0; left: 0.5em; bottom: 25px; position:fixed;">
             JMU CompSci
         </h1>
 
-        <div style="z-index: 200; right: 1.5em; bottom: 25px; position:absolute;">
+        <div style="z-index: 200; right: 1.5em; bottom: 25px; position:fixed;">
             Interact with this presentation @ (coming soon).
         </div>
 
@@ -68,6 +68,16 @@
             }
         )
 
+        socket.on(
+            "touch move",
+            function(msg) {
+                var pos = msg.split(" ");
+                var x = parseFloat(pos[0]);
+                var y = parseFloat(pos[1]);
+                touchMoveHandler(x,y);
+            }
+        )
+
         //load a script
         $(document).ready(function () {
 
@@ -75,6 +85,9 @@
             var variableArray = searchString.split('&');
             fileName = getUrlValue("sketch");
             currentSlideIndex = getUrlValue("slide");
+            if (currentSlideIndex == undefined) {
+                currentSlideIndex = 0;
+            }
 
             if (fileName == undefined)
                 fileName = "splash-sketch";
