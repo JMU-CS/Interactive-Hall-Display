@@ -70,6 +70,8 @@
         var fileName;
         var originalCode;
         var currentSlideIndex = -1;
+        
+        var sketch_reloader = undefined; // Used to go back to splash-sketch on no user input for 60 seconds
 
         var socket = io("/player");
         
@@ -84,20 +86,12 @@
             }
         )
 
-        
-        var sketch_reloader = undefined;
-
         function getCurrentSlideIndex() { return currentSlideIndex; }
 
         socket.on(
             "load game", 
             function(msg) {
-                window.location.href="?sketch=" + msg + "&slide=" + getCurrentSlideIndex();
-                // if (msg != "splash-sketch") {
-                //     sketch_reloader = setTimeout(function() {
-                //         window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
-                //     }, 60000)
-                // }
+                window.location.href="?sketch=" + msg + "&slide=" + currentSlideIndex;
             }
         )
 
@@ -108,12 +102,12 @@
                 var x = parseFloat(pos[0]);
                 var y = parseFloat(pos[1]);
                 touchMoveHandler(x,y);
-                // if (sketch_reloader != undefined) {
-                //     clearTimeout(sketch_reloader);
-                //     sketch_reloader = setTimeout(function() {
-                //             window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
-                //         }, 60000)
-                // }
+                if (sketch_reloader != undefined) {
+                    clearTimeout(sketch_reloader);
+                    sketch_reloader = setTimeout(function() {
+                            window.location.href="?";
+                        }, 60000)
+                }
             }
         )
 
@@ -128,8 +122,13 @@
                 currentSlideIndex = 0;
             }
 
-            if (fileName == undefined)
+            if (fileName == undefined) {
                 fileName = "splash-sketch";
+            } else {
+                sketch_reloader = setTimeout(function() {
+                    window.location.href="?";
+                }, 60000)
+            }
 
             $.ajax({
                 type: "GET",
