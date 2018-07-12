@@ -93,11 +93,11 @@
             "load game", 
             function(msg) {
                 window.location.href="?sketch=" + msg + "&slide=" + getCurrentSlideIndex();
-                if (msg != "splash-sketch") {
-                    sketch_reloader = setTimeout(function() {
-                        window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
-                    }, 60000)
-                }
+                // if (msg != "splash-sketch") {
+                //     sketch_reloader = setTimeout(function() {
+                //         window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
+                //     }, 60000)
+                // }
             }
         )
 
@@ -108,12 +108,12 @@
                 var x = parseFloat(pos[0]);
                 var y = parseFloat(pos[1]);
                 touchMoveHandler(x,y);
-                if (sketch_reloader != undefined) {
-                    clearTimeout(sketch_reloader);
-                    sketch_reloader = setTimeout(function() {
-                            window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
-                        }, 60000)
-                }
+                // if (sketch_reloader != undefined) {
+                //     clearTimeout(sketch_reloader);
+                //     sketch_reloader = setTimeout(function() {
+                //             window.location.href="?sketch=splashSketch&slide=" + getCurrentSlideIndex();
+                //         }, 60000)
+                // }
             }
         )
 
