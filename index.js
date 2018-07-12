@@ -12,7 +12,7 @@ var app = express();
 app.use(express.static('framework'));
   
 
-var server = require('http').createServer(app).listen(process.env.PORT || 8080);
+var server = require('http').createServer(app).listen(process.env.PORT || 80);
 
 // Create the Socket.IO server and attach it to the HTTP server
 var io = require('socket.io').listen(server);
