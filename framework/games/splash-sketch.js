@@ -7,9 +7,17 @@ function gameMessageHandler(msg) {
 
 var touchX = 0, touchY = 0;
 
+var showInteraction = false; 
+var interactionTimer = undefined; 
+
 function touchMove(x, y) {
   touchX = x * windowWidth;
   touchY = y * windowHeight;
+  if (interactionTimer != undefined) clearTimeout(interactionTimer);
+  interactionTimer = setTimeout(function () {
+    showInteraction = false; 
+  }, 60000);
+  showInteraction = true;
 }
 
 class Sparkler {
@@ -109,7 +117,7 @@ function draw() {
       sparklers[i].draw();
   }
 
-  mouseSparkler.drawAt(touchX, touchY);
+  if (showInteraction) mouseSparkler.drawAt(touchX, touchY);
 
   drawSprites();
 

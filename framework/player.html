@@ -24,22 +24,45 @@
 
     <div id="container">
 
-
+        <style>
+            .bottom { bottom: 25px;  }
+            .top { top: 25px; }
+        </style>
+        
         <div id="slides">
             <div id="theSlides">
                 
             </div>
         </div>
 
-        <h1 style="z-index: 200; margin-bottom: 0; left: 0.5em; bottom: 25px; position:fixed;">
+        <h1 id="branding" style="z-index: 200; margin-bottom: 0; left: 0.5em; position:fixed;" class="bottom">
             JMU CompSci
         </h1>
 
-        <div style="z-index: 200; right: 1.5em; bottom: 25px; position:fixed;">
+        <div id="url" style="z-index: 200; right: 1.5em; position:fixed;" class="bottom">
             Interact with this presentation @ halldisplay.cs.jmu.edu:8080.
         </div>
 
+        <script>
+        function moveToTop() {
+            $("#branding,#url").removeClass("bottom").addClass("top")
+            setTimeout(function() {
+                moveToBottom()
+            }, 20000)
+        }
+
+        function moveToBottom() {
+            $("#branding,#url").removeClass("top").addClass("bottom")
+            setTimeout(function() {
+                moveToTop()
+            }, 20000)
+        }
+
+        moveToTop();
+        </script>
+
     </div>
+
 
 
     <script>
