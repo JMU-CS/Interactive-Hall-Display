@@ -28,10 +28,10 @@
             .bottom { bottom: 25px;  }
             .top { top: 25px; }
         </style>
-        
+
         <div id="slides">
             <div id="theSlides">
-                
+
             </div>
         </div>
 
@@ -70,13 +70,13 @@
         var fileName;
         var originalCode;
         var currentSlideIndex = -1;
-        
+
         var sketch_reloader = undefined; // Used to go back to splash-sketch on no user input for 60 seconds
 
         var socket = io("/player");
-        
+
         socket.on(
-            "game message", 
+            "game message",
             function(msg) {
                 if (theGameMessageHandler != null) {
                     theGameMessageHandler(msg);
@@ -89,9 +89,41 @@
         function getCurrentSlideIndex() { return currentSlideIndex; }
 
         socket.on(
-            "load game", 
+            "load game",
             function(msg) {
                 window.location.href="?sketch=" + msg + "&slide=" + currentSlideIndex;
+            }
+        )
+
+        socket.on(
+            "touch start",
+            function(msg) {
+                var pos = msg.split(" ");
+                var x = parseFloat(pos[0]);
+                var y = parseFloat(pos[1]);
+                touchStartHandler(x,y);
+                if (sketch_reloader != undefined) {
+                    clearTimeout(sketch_reloader);
+                    sketch_reloader = setTimeout(function() {
+                            window.location.href="?";
+                        }, 60000)
+                }
+            }
+        )
+
+        socket.on(
+            "touch end",
+            function(msg) {
+                var pos = msg.split(" ");
+                var x = parseFloat(pos[0]);
+                var y = parseFloat(pos[1]);
+                touchStartHandler(x,y);
+                if (sketch_reloader != undefined) {
+                    clearTimeout(sketch_reloader);
+                    sketch_reloader = setTimeout(function() {
+                            window.location.href="?";
+                        }, 60000)
+                }
             }
         )
 
@@ -147,7 +179,7 @@
 
                 function fade() {
                     var current = $('.current');
-                    
+
                     var currentIndex = divs.index(current);
 
                     var nextIndex = currentIndex + 1;

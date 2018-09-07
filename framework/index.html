@@ -21,7 +21,7 @@
             position: fixed;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-        
+
         .hidden { display: none; }
 
         div.game-controller {
@@ -48,8 +48,8 @@
             text-align: center;
         }
         nav ul li a {
-            display: inline-block;  
-            vertical-align: middle;  
+            display: inline-block;
+            vertical-align: middle;
             text-decoration: none;
             color: #4e0492;
         }
@@ -57,23 +57,23 @@
             content: '';
             display: inline-block;
             vertical-align: middle;
-            height: 100%;       
+            height: 100%;
         }
 
-            
+
     </style>
 </head>
 
 <body>
     <script>
-        
+
 
         var socket = io("/controller");
-        
+
         socket.on(
-            "ctrl message", 
+            "ctrl message",
             function(msg) {
-                
+
             }
         )
 
@@ -91,6 +91,30 @@
                 'id': 'cursor'
             });
 
+            $("#controller").on('touchend mouseup', function (e) {
+              var normalizedishEvent = e.originalEvent.touches ? e.originalEvent.touches["0"] : e;
+
+              socket.emit("touch end", "" + (normalizedishEvent.clientX/$(window).width()) + " " + (normalizedishEvent.clientY/$(window).height()));
+            });
+
+            $("#controller").on('touchstart mousedown', function (e) {
+              var normalizedishEvent = e.originalEvent.touches ? e.originalEvent.touches["0"] : e;
+              
+              $cursor.css({
+                  position: "fixed",
+                  top: Math.max(normalizedishEvent.clientY - 25,30),
+                  left:  normalizedishEvent.clientX - 25,
+                  display: 'block',
+                  zIndex: 300,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "#ff0000"
+              });
+
+              socket.emit("touch start", "" + (normalizedishEvent.clientX/$(window).width()) + " " + (normalizedishEvent.clientY/$(window).height()));
+
+            });
+
             $("#controller").on('touchmove mousemove', function (e) {
 
                 var normalizedishEvent = e.originalEvent.touches ? e.originalEvent.touches["0"] : e;
@@ -102,7 +126,7 @@
                     display: 'block',
                     zIndex: 300,
                     width: 50,
-                    height: 50, 
+                    height: 50,
                     backgroundColor: "#ff0000"
                 });
 
@@ -117,7 +141,7 @@
             $("#main-nav").show();
 
             $("#controller").children().last().remove();
-            $("#controller").unbind("touchmove mousemove");
+            $("#controller").unbind("touchmove mousemove touchstart mousedown touchend mouseup");
         }
 
     </script>
