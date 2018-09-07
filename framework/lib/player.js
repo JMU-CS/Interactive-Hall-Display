@@ -29,6 +29,22 @@ function playCode(code) {
         if (typeof touchStart !== "undefined") { touchStartHandler = touchStart; }
         if (typeof touchMove !== "undefined") { touchMoveHandler = touchMove; }
         if (typeof touchEnd !== "undefined") { touchEndHandler = touchEnd; }
+
+        if (typeof githubAccount !== "undefined" && typeof userpic !== "undefined") {
+      
+          $("#slides").hide();
+          $("#branding").hide();
+          $("#url").hide();
+
+          $("#usericon").html("<img style=\"width: 50px; height=50px; border-radius: 25px;\" src=\"img/coders/" + userpic() + "\" />");
+          $("#github").text(githubAccount());
+
+          if (typeof graddate !== "undefined") {
+            $("#graddate").text(graddate());
+          }
+          $("#shoutout").show();
+      //      $("#shoutout").show();
+        }
       }
 
       var fxns = p5functions;

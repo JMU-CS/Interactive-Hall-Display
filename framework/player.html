@@ -35,6 +35,14 @@
             </div>
         </div>
 
+        <div id="shoutout" style="z-index: 200; margin-top: 0; right: 100px; position:fixed; background-color: rgba(0,0,0,200.0); padding: 0.25em; font-size: 14pt; display:none;">
+            <p style="text-align: center; padding-left: 0.5em; padding-right: 0.5em;">Designed by:</p>
+            <p id="usericon" style="text-align: center;"></p>
+            <p style="text-align: center; padding-bottom:0;margin-bottom: 0; font-size: 10pt;">GitHub</p> 
+            <p id="github" style="vertical-align: middle; text-align: center;margin-top:0;margin-bottom: 0;  padding-bottom:0;"></p>
+            <p id="graddate" style="vertical-align: middle; text-align: center; margin-top:0; margin-bottom: 0; font-size: 10pt; padding-bottom:0;"></p>
+        </div>
+
         <h1 id="branding" style="z-index: 200; margin-bottom: 0; left: 0.5em; position:fixed;" class="bottom">
             JMU CompSci
         </h1>
@@ -149,10 +157,11 @@
             var searchString = window.location.search.substring(1);
             var variableArray = searchString.split('&');
             fileName = getUrlValue("sketch");
-            currentSlideIndex = getUrlValue("slide");
-            if (currentSlideIndex == undefined) {
-                currentSlideIndex = 0;
-            }
+            // currentSlideIndex = getUrlValue("slide");
+            // if (currentSlideIndex == undefined) {
+            //     currentSlideIndex = 0;
+            // }
+            currentSlideIndex = 0;
 
             if (fileName == undefined) {
                 fileName = "splash-sketch";

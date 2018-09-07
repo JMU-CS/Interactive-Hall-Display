@@ -1,3 +1,16 @@
+
+function githubAccount() {
+  return "nickrhalvorsen";
+}
+
+function userpic() {
+  return "halvorsenn.jpeg"
+}
+
+function graddate() {
+  return "JMU '19";
+}
+
 function gameMessageHandler(msg) {
 
 }
