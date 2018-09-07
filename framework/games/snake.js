@@ -7,6 +7,8 @@ var highScore = 0;
 
 var foodX;
 var foodY;
+var touchX;
+var touchY;
 
 function setup() {
   var canv = createCanvas(windowWidth, windowHeight);
@@ -19,15 +21,30 @@ function setup() {
 }
 
 //TODO Player Movement...
-/**
-function touchMove(x, y) {
-    touchX = x * windowWidth;
-    touchY = y * windowHeight;
-}**/
 
-//Used for testing
-function mousePressed() {
-  dir = "up";
+function touchStart(x, y) {
+  console.log(x + " " + y);
+  if(y > x) {
+    if(1-x > y) {
+      if(dir !== "right") {
+        dir = "left";
+      }
+    } else {
+      if(dir !== "up") {
+        dir = "down";
+      }
+    }
+  } else {
+    if(1-x > y) {
+      if(dir !== "down") {
+        dir = "up";
+      }
+    } else {
+      if(dir !== "left") {
+        dir = "right";
+      }
+    }
+  }
 }
 
 function draw() {
