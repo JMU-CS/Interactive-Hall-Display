@@ -17,6 +17,8 @@ function gameMessageHandler(msg) {
 
 var score = 0;
 var highScore = 0;
+var snakeSize = 40;
+var gameSpeed = 9;
 
 var foodX;
 var foodY;
@@ -28,7 +30,7 @@ function setup() {
   canv.parent("bgCanvas");
 
   //Setup New Game
-  frameRate(10); //TODO Change speed based on score?
+  frameRate(gameSpeed); //TODO Change speed based on score?
   generateFood();
   newGame();
 }
@@ -64,10 +66,11 @@ function draw() {
   background(51);
 
   drawScoreboard();
+  changeSpeed();
 
   moveSnake();
-  displaySnake();
   displayFood();
+  displaySnake();
   checkEatFood();
 }
 
@@ -76,19 +79,31 @@ function drawScoreboard() {
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
 
-  stroke(118, 22, 167);
+  stroke(69, 0, 132);
   strokeWeight(2);
-  fill(255, 204 , 0, 150);
+  fill(203, 182, 119);
   rect(150, 100, 230, 90);
 
-  fill(118, 22, 167);
+  fill(69, 0, 132);
   strokeWeight(0);
   textSize(25);
-  text( "Score: " + score, 120, 75);
+  text( "Score: " + score, 110, 85);
 
-  fill(118, 22, 167);
+  fill(69, 0, 132);
   textSize(25);
-  text( "High Score: " + highScore, 150, 120);
+  text( "High Score: " + highScore, 143, 120);
+}
+
+/*Change speed based on score*/
+function changeSpeed() {
+  if(score >= 5 && score < 10) {
+    gameSpeed = 10;
+  } else if(score > 10 && score < 15) {
+    gameSpeed = 12;
+  } else if(score >= 15) {
+    gameSpeed = 13;
+  }
+  frameRate(gameSpeed);
 }
 
 /* FOOD */
@@ -98,9 +113,13 @@ function generateFood() {
 }
 
 function displayFood() {
-  strokeWeight(0);
-  fill(118,22,167);
-  rect(foodX, foodY, 25, 25);
+  strokeWeight(1);
+  stroke(0, 0, 0);
+  fill(198,0,0);
+  rect(foodX, foodY, 35, 35, 20);
+
+  strokeWeight(2);
+  line(foodX, foodY-10, foodX+5, foodY-20);
 }
 
 
@@ -120,16 +139,20 @@ function displaySnake() {
   rectMode(CENTER);
   var i;
   for (i = 0; i < len; i++) {
-    stroke(179, 140, 198);
+    stroke(69, 0, 132);
     strokeWeight(2);
-    fill(255, 204 , 0);
-    rect(xpos[i], ypos[i], 25, 25);
+    fill(203, 182, 119);
+    rect(xpos[i], ypos[i], snakeSize, snakeSize, 5);
+    if(i == 0) {
+      fill(51);
+      ellipse(xpos[i]+8, ypos[i]-8, 6, 6);
+    }
   }
 }
 
 function increaseSnakeSize() {
-  xpos[len] = xpos[len-1]+25;
-  ypos[len] = ypos[len-1]+25;
+  xpos[len] = xpos[len-1]+snakeSize;
+  ypos[len] = ypos[len-1]+snakeSize;
   len++;
 }
 
@@ -140,16 +163,16 @@ function moveSnake() {
     ypos[i] = ypos[i-1];
   }
   if(dir == "up") {
-    ypos[0] = ypos[0] - 25;
+    ypos[0] = ypos[0] - snakeSize;
   }
   if(dir == "down") {
-    ypos[0] = ypos[0] + 25;
+    ypos[0] = ypos[0] + snakeSize;
   }
   if(dir == "right") {
-    xpos[0] = xpos[0] + 25;
+    xpos[0] = xpos[0] + snakeSize;
   }
   if(dir == "left") {
-    xpos[0] = xpos[0] - 25;
+    xpos[0] = xpos[0] - snakeSize;
   }
   //Wrap on screen
   xpos[0] = (xpos[0] + windowWidth) % windowWidth;
@@ -161,11 +184,12 @@ function moveSnake() {
     xpos = [400];
     ypos = [300];
     score = 0;
+    gameSpeed = 9;
   }
 }
 
 function checkEatFood() {
-  if(dist(foodX, foodY, xpos[0], ypos[0]) < 25 ) {
+  if(dist(foodX, foodY, xpos[0], ypos[0]) < snakeSize ) {
     generateFood();
     increaseSnakeSize();
     score++;
@@ -178,7 +202,7 @@ function checkEatFood() {
 function checkCollide() {
   var i;
   for(i = 1; i < len; i++) {
-    if(dist(xpos[0], ypos[0], xpos[i], ypos[i]) < 25) {
+    if(dist(xpos[0], ypos[0], xpos[i], ypos[i]) < snakeSize) {
       return true;
     }
   }
