@@ -12,7 +12,7 @@ var app = express();
 app.use(express.static('framework'));
 
 
-var server = require('http').createServer(app).listen(process.env.PORT || 8001);
+var server = require('http').createServer(app).listen(process.env.PORT || 80);
 
 // Create the Socket.IO server and attach it to the HTTP server
 var io = require('socket.io').listen(server);
@@ -63,4 +63,10 @@ io.of("/controller").on('connection', function(socket) {
     socket.on('disconnect', function () {
         console.log('A controller disconnected.');
     })
+});
+
+// Catch all error messages
+process.on('uncaughtException', function (err) {
+  console.error(err.stack);
+  console.log("Node NOT Exiting...");
 });
