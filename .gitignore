@@ -2,4 +2,5 @@
 !.gitignore
 slides.html
 node_modules/*
+framework/img/slides/*
 package-lock.json
