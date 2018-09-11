@@ -41,14 +41,12 @@ io.of("/controller").on('connection', function(socket) {
     });
 
     socket.on('touch start', function(msg) {
-        console.log("touch start: " + msg);
         if (playerSocket != null) {
             playerSocket.emit('touch start', msg);
         }
     })
 
     socket.on('touch end', function(msg) {
-        console.log("touch end: " + msg);
         if (playerSocket != null) {
             playerSocket.emit('touch end', msg);
         }
