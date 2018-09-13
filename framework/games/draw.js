@@ -6,7 +6,7 @@ function gameMessageHandler(msg) {
 
 var touchX = 0, touchY = 0, lastTouchX = 0, lastTouchY = 0;
 
-function touchMove(x, y) {
+function touchMove(x, y, id) {
     touchX = x * windowWidth;
     touchY = y * windowHeight;
 }
@@ -21,7 +21,7 @@ function setup() {
 var currentColor = 0;
 
 function draw() {
-    colorMode(RGB, 255);    
+    colorMode(RGB, 255);
     fill(0,0,0,10.0);
     rect(0, 0, windowWidth, windowHeight);
     colorMode(HSB, 255);

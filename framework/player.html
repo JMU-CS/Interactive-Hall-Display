@@ -106,10 +106,12 @@
         socket.on(
             "touch start",
             function(msg) {
-                var pos = msg.split(" ");
+                var split = msg.split(":");
+                var id = split[1];
+                var pos = split[0].split(" ");
                 var x = parseFloat(pos[0]);
                 var y = parseFloat(pos[1]);
-                touchStartHandler(x,y);
+                touchStartHandler(x,y,id);
                 if (sketch_reloader != undefined) {
                     clearTimeout(sketch_reloader);
                     sketch_reloader = setTimeout(function() {
@@ -122,10 +124,12 @@
         socket.on(
             "touch end",
             function(msg) {
-                var pos = msg.split(" ");
-                var x = parseFloat(pos[0]);
-                var y = parseFloat(pos[1]);
-                touchStartHandler(x,y);
+              var split = msg.split(":");
+              var id = split[1];
+              var pos = split[0].split(" ");
+              var x = parseFloat(pos[0]);
+              var y = parseFloat(pos[1]);
+                touchStartHandler(x,y,id);
                 if (sketch_reloader != undefined) {
                     clearTimeout(sketch_reloader);
                     sketch_reloader = setTimeout(function() {
@@ -138,10 +142,12 @@
         socket.on(
             "touch move",
             function(msg) {
-                var pos = msg.split(" ");
-                var x = parseFloat(pos[0]);
-                var y = parseFloat(pos[1]);
-                touchMoveHandler(x,y);
+              var split = msg.split(":");
+              var id = split[1];
+              var pos = split[0].split(" ");
+              var x = parseFloat(pos[0]);
+              var y = parseFloat(pos[1]);
+                touchMoveHandler(x,y,id);
                 if (sketch_reloader != undefined) {
                     clearTimeout(sketch_reloader);
                     sketch_reloader = setTimeout(function() {
