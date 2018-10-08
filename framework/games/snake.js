@@ -30,15 +30,12 @@ function setup() {
   canv.parent("bgCanvas");
 
   //Setup New Game
-  frameRate(gameSpeed); //TODO Change speed based on score?
+  frameRate(gameSpeed);
   generateFood();
   newGame();
 }
 
-//TODO Player Movement...
-
-function touchStart(x, y) {
-  console.log(x + " " + y);
+function touchStart(x, y, id) {
   if(y > x) {
     if(1-x > y) {
       if(dir !== "right") {

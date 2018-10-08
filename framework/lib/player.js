@@ -2,9 +2,9 @@ var p5functions = ['preload', 'setup', 'draw', 'keyPressed', 'keyReleased', 'key
 
 var activeSketch;
 var theGameMessageHandler = null;
-var touchStartHandler = function(x, y) {};
-var touchMoveHandler = function(x, y) {};
-var touchEndHandler = function(x, y) {};
+var touchStartHandler = function(x, y, id) {};
+var touchMoveHandler = function(x, y, id) {};
+var touchEndHandler = function(x, y, id) {};
 
 // adapted from p5js.org, originally by Lauren McCarthy
 // https://github.com/processing/p5.js-website/blob/master/js/render.js
@@ -31,7 +31,7 @@ function playCode(code) {
         if (typeof touchEnd !== "undefined") { touchEndHandler = touchEnd; }
 
         if (typeof githubAccount !== "undefined" && typeof userpic !== "undefined") {
-      
+
           $("#slides").hide();
           $("#branding").hide();
           $("#url").hide();

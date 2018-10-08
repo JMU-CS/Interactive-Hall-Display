@@ -7,15 +7,15 @@ function gameMessageHandler(msg) {
 
 var touchX = 0, touchY = 0;
 
-var showInteraction = false; 
-var interactionTimer = undefined; 
+var showInteraction = false;
+var interactionTimer = undefined;
 
-function touchMove(x, y) {
+function touchMove(x, y, id) {
   touchX = x * windowWidth;
   touchY = y * windowHeight;
   if (interactionTimer != undefined) clearTimeout(interactionTimer);
   interactionTimer = setTimeout(function () {
-    showInteraction = false; 
+    showInteraction = false;
   }, 60000);
   showInteraction = true;
 }
@@ -35,7 +35,7 @@ class Sparkler {
     update() {
         this.px += this.vx;
         this.py += this.vy;
-      
+
         if (this.px < 0) {
             this.px = 0;
             this.vx = -this.vx;
@@ -43,7 +43,7 @@ class Sparkler {
             this.px = windowWidth;
             this.vx = -this.vx;
         }
-      
+
         if (this.py < 0) {
             this.py = 0;
             this.vy = -this.vy;
@@ -51,7 +51,7 @@ class Sparkler {
             this.py = windowHeight;
             this.vy = -this.vy;
         }
-      
+
         if (Math.random(20) == 1) {
           var theta = Math.random()/10.0;
           this.vx = this.vx * Math.cos(theta) - this.vy * Math.sin(theta);
@@ -78,7 +78,7 @@ var mouseSparkler = new Sparkler();
 function setup() {
   var canv = createCanvas(windowWidth, windowHeight);
   canv.parent("bgCanvas");
-  
+
   colorMode(HSB, 255);
   for (var i = 0; i < 3; i++) {
     sparklers.push(new Sparkler());
@@ -105,9 +105,9 @@ function drawCircles(cx, cy, fillColor) {
 }
 
 function draw() {
-  if (whiteBackground) 
+  if (whiteBackground)
     background(255,0,255);
-  else 
+  else
     background(255,255,0);
   fill(254, 190, 190);
   textAlign(RIGHT);
@@ -125,7 +125,7 @@ function draw() {
 }
 
 function update() {
-  
+
     for (var i = 0; i < sparklers.length; i++) {
       sparklers[i].update();
     }
