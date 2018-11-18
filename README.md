@@ -8,7 +8,7 @@ If you have questions about the contents of this repository, please contact `bow
 
 Game Development Executives for Fall 2018:
 
-President: Jason Zareski -- <zareskj@dukes.jmu.edu>\
+President: Jason Zareski -- <zareskjj@dukes.jmu.edu>\
 Vice President: Nicholas Halvorsen -- <halvornr@dukes.jmu.edu>
 
 ## Installing Dependencies
