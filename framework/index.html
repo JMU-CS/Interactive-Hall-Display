@@ -78,6 +78,9 @@
         )
 
         function loadGame(gameName) {
+            if(gameName === 'snake/snake') {
+                $("#controller").load('games/snake/snakeController.html');
+            }
             socket.emit("load game", gameName);
         }
 
@@ -149,7 +152,7 @@
     <nav id="main-nav">
         <ul>
             <li><a onclick="startInteraction();">Interact With Current Screen</a></li>
-            <li><a onclick="loadGame('snake');startInteraction();">Snake</a></li>
+            <li><a onclick="loadGame('snake/snake');startInteraction();">Snake</a></li>
             <li><a onclick="loadGame('splash-sketch');startInteraction();">Circles of Circles</a></li>
             <li><a onclick="loadGame('draw');startInteraction();">Draw with friends</a></li>
         </ul>

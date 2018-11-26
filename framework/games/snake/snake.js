@@ -35,28 +35,20 @@ function setup() {
   newGame();
 }
 
-function touchStart(x, y, id) {
-  if(y > x) {
-    if(1-x > y) {
-      if(dir !== "right") {
-        dir = "left";
-      }
-    } else {
-      if(dir !== "up") {
-        dir = "down";
-      }
-    }
-  } else {
-    if(1-x > y) {
-      if(dir !== "down") {
-        dir = "up";
-      }
-    } else {
-      if(dir !== "left") {
-        dir = "right";
-      }
-    }
+function onClick(elementID, id) {
+  if(elementID === "up" && dir !== "down") {
+    dir = "up";
+  } else if (elementID === "down" && dir !== "up") {
+    dir = "down";
+  } else if (elementID === "left" && dir !== "right") {
+    dir = "left";
+  } else if (elementID === "right" && dir !== "left") {
+    dir = "right";
   }
+}
+
+function touchStart(x, y, id) {
+  // not used anymore
 }
 
 function draw() {
