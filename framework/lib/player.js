@@ -5,6 +5,7 @@ var theGameMessageHandler = null;
 var touchStartHandler = function(x, y, id) {};
 var touchMoveHandler = function(x, y, id) {};
 var touchEndHandler = function(x, y, id) {};
+var onClickHandler = function(elementID, id) {};
 
 // adapted from p5js.org, originally by Lauren McCarthy
 // https://github.com/processing/p5.js-website/blob/master/js/render.js
@@ -29,6 +30,7 @@ function playCode(code) {
         if (typeof touchStart !== "undefined") { touchStartHandler = touchStart; }
         if (typeof touchMove !== "undefined") { touchMoveHandler = touchMove; }
         if (typeof touchEnd !== "undefined") { touchEndHandler = touchEnd; }
+        if (typeof onClick !== "undefined") { onClickHandler = onClick; }
 
         if (typeof githubAccount !== "undefined" && typeof userpic !== "undefined") {
 

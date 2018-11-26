@@ -12,7 +12,7 @@ var app = express();
 app.use(express.static('framework'));
 
 
-var server = require('http').createServer(app).listen(process.env.PORT || 80);
+var server = require('http').createServer(app).listen(process.env.PORT || 8001);
 
 // Create the Socket.IO server and attach it to the HTTP server
 var io = require('socket.io').listen(server);
@@ -38,25 +38,31 @@ io.of("/controller").on('connection', function(socket) {
         if (playerSocket != null) {
             playerSocket.emit('load game', msg);
         }
-    })
+    });
 
     socket.on('touch start', function(msg) {
         if (playerSocket != null) {
             playerSocket.emit('touch start', msg + ":" + socket.id);
         }
-    })
+    });
 
     socket.on('touch end', function(msg) {
         if (playerSocket != null) {
             playerSocket.emit('touch end', msg + ":" + socket.id);
         }
-    })
+    });
 
     socket.on('touch move', function(msg) {
         if (playerSocket != null) {
             playerSocket.emit('touch move', msg + ":" + socket.id);
         }
-    })
+    });
+
+    socket.on('clicked', function(msg) {
+        if(playerSocket != null) {
+            playerSocket.emit('on click', msg + ":" + socket.id);
+        }
+    });
 
     socket.on('disconnect', function () {
         console.log('A controller disconnected.');

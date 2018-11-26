@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">    <script src ="/socket.io/socket.io.js"></script>
+    <style>
+        .container{
+        @include center;
+            height:400px;
+            width:400px;
+        }
+        .buttons{
+            height:120px;
+            width:120px;
+            font-size:6.0em;
+            background:none;
+            border:none;
+        }
+        .fas {
+            color:#CBB677;
+        }
+        #up, #down{
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+        }
+        #up {
+            color: white;
+            top:0;
+        }
+        #down{
+            color: white;
+            bottom:0;
+        }
+        #right, #left{
+            position:absolute;
+            top:50%;
+            transform: translateY(-50%);
+        }
+        #right{
+            color: white;
+            right:0;
+        }
+        #left{
+            color: white;
+            left:0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button id="up" class="buttons" onclick="buttonClicked(this.id)"><i class="fas fa-arrow-circle-up"></i></button>
+    <button id="down" class="buttons" onclick="buttonClicked(this.id)"><i class="fas fa-arrow-circle-down"></i></button>
+    <button id="left" class="buttons" onclick="buttonClicked(this.id)"><i class="fas fa-arrow-circle-left"></i></button>
+    <button id="right" class="buttons" onclick="buttonClicked(this.id)"><i class="fas fa-arrow-circle-right"></i></button>
+</div>
+
+
+<script>
+    var socket = io("/controller");
+
+    function buttonClicked(elementID){
+        socket.emit('clicked', elementID);
+    }
+</script>
+
+
+</body>
+</html>

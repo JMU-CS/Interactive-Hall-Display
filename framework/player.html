@@ -92,7 +92,7 @@
                     console.log("Null game message handler.");
                 }
             }
-        )
+        );
 
         function getCurrentSlideIndex() { return currentSlideIndex; }
 
@@ -101,7 +101,7 @@
             function(msg) {
                 window.location.href="?sketch=" + msg + "&slide=" + currentSlideIndex;
             }
-        )
+        );
 
         socket.on(
             "touch start",
@@ -119,7 +119,7 @@
                         }, 60000)
                 }
             }
-        )
+        );
 
         socket.on(
             "touch end",
@@ -137,7 +137,7 @@
                         }, 60000)
                 }
             }
-        )
+        );
 
         socket.on(
             "touch move",
@@ -155,7 +155,23 @@
                         }, 60000)
                 }
             }
-        )
+        );
+
+        socket.on(
+            "on click",
+            function(msg) {
+                var split = msg.split(":");
+                var id = split[1];
+                var elementID = split[0];
+                onClickHandler(elementID, id);
+                if (sketch_reloader != undefined) {
+                    clearTimeout(sketch_reloader);
+                    sketch_reloader = setTimeout(function() {
+                        window.location.href="?";
+                    }, 60000)
+                }
+            }
+        );
 
         //load a script
         $(document).ready(function () {
