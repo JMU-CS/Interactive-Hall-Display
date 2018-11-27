@@ -1,5 +1,5 @@
 function githubAccount() {
-    return "nickrhalvorsen";
+    return "zareskjj";
 }
 //
 //function userpic() {
@@ -15,7 +15,7 @@ function gameMessageHandler(msg) {
 }
 
 let entityLimit = 18;
-let baseSpeed = -40;
+let baseSpeed = -25;
 
 let playerWidth = windowWidth * 0.05;
 let playerHeight = windowHeight * 0.1;
@@ -31,7 +31,16 @@ var position;
 var speed; // Used for jumping
 var accel; // Gravity simulation
 
+var gameSpeed = 30;
+
 let resetY = windowHeight - playerHeight - 30;
+
+var envObst; // Array of obstacles
+var environmentRewards; // Array of rewards
+var delay;
+
+var score = 0;
+var highScore = 0;
 
 function newPlayer() {
     accel = createVector(0, 0);
@@ -75,6 +84,7 @@ function update() {
         if (v.x <= 0)
         {
             envObst.splice(i, 1);
+            score += 1;
         } else {
             envObst[i][0] = v.x;
             envObst[i][1] = v.y;
@@ -101,19 +111,12 @@ function display() {
 
 }
 
-var envObst; // Array of obstacles
-var environmentRewards; // Array of rewards
-var delay;
-
-var score = 0;
-var highScore = 0;
-var gameSpeed = 10;
-
 function newGame() {
     envObst = [];
     environmentRewards = [];
     score = 0;
-    gameSpeed = 20; //TODO was 10
+    gameSpeed = 35;
+    frameRate(gameSpeed);
     delay = 0;
     newPlayer();
 }
@@ -178,7 +181,6 @@ function generateEnvironment() {
 function draw() {
     background(51);
     drawScoreboard();
-    changeSpeed();
 
     update(); // Player update
 
@@ -206,11 +208,6 @@ function drawScoreboard() {
     text("High Score: " + highScore, 143, 120);
 }
 
-/*Change speed based on score*/
-function changeSpeed() {
-    frameRate(gameSpeed);
-}
-
 function displayGround() {
     rectMode(CORNER);
     stroke(0, 0, 0);
@@ -226,5 +223,5 @@ function randomInt(range, offset) {
 function endGame() {
     highScore = highScore < score ? score : highScore;
     score = 0;
-
+    newGame();
 }
