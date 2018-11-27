@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">    <script src ="/socket.io/socket.io.js"></script>
+    <style>
+        .container{
+        @include center;
+            height:400px;
+            width:400px;
+        }
+        .buttons{
+            height:120px;
+            width:120px;
+            font-size:6.0em;
+            background:none;
+            border:none;
+        }
+        .fas {
+            color:#CBB677;
+        }
+        #jump {
+            position: absolute;
+            text-align: center;
+            height:100px;
+            width:100px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+  <button id="jump" class="buttons" onclick="buttonClicked(this.id)">
+    <i class="fas fa-arrow-circle-up"></i>
+  </button>
+
+</div>
+
+
+<script>
+    var socket = io("/controller");
+
+    function buttonClicked(elementID){
+        socket.emit('clicked', elementID);
+    }
+</script>
+
+
+</body>
+</html>
