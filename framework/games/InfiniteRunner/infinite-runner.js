@@ -15,6 +15,10 @@ function gameMessageHandler(msg) {
 
 }
 
+var playerWidth = windowWidth * 0.05;
+var playerHeight = windowHeight * 0.1;
+
+
 // Always right facing
 var xpos, ypos;
 var jumpDelay; // Frame between consecutive jumps
@@ -35,18 +39,18 @@ function setup() {
 
   //Setup New Game
   frameRate(gameSpeed);
-  generateFood();
   newGame();
 }
 
-function touchStart(x, y, id) {
-  // On touch, just jump?
-  jump();
+function onClick(elementID, id) {
+  if (elementID == "jump" && jumpDelay == 0) {
+    jump();
+  }
 }
 
 function jump() {
   ypos = ypos + 20;
-  jumpDelay = 300;
+  jumpDelay = 5;
 }
 
 function jumpDecay() {
@@ -66,6 +70,7 @@ function draw() {
   drawScoreboard();
   changeSpeed();
   displayPlayer();
+  displayGround();
   generateEnvironment();
   checkCollisions();
   jumpDecay();
@@ -75,7 +80,6 @@ function draw() {
 function drawScoreboard() {
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
-
   stroke(69, 0, 132);
   strokeWeight(2);
   fill(203, 182, 119);
@@ -103,39 +107,33 @@ function changeSpeed() {
   frameRate(gameSpeed);
 }
 
-/* FOOD */
-function generateFood() {
-  foodX = Math.floor(Math.random() * (windowWidth - 10)) + 10;
-  foodY = Math.floor(Math.random() * (windowHeight - 10)) + 10;
-}
-
-function displayFood() {
-  strokeWeight(1);
-  stroke(0, 0, 0);
-  fill(198,0,0);
-  rect(foodX, foodY, 35, 35, 20);
-
-  strokeWeight(2);
-  line(foodX, foodY-10, foodX+5, foodY-20);
-}
-
 function newGame() {
-  xpos = windowWidth / 2;
-  ypos = windowHeight - 20;
+  xpos = windowWidth * 0.35;
+  ypos = windowHeight - playerHeight - 30;
   jumpDelay = 0;
 }
 
 function displayPlayer() {
   rectMode(CENTER);
-  stroke(69, 0 132);
+  stroke(69, 0, 132);
   strokeWeight(1);
   fill(203, 182, 119);
-  rect(xpos, ypos, 5, 5, 5);
+
+  xpos = windowWidth * 0.35;
+  ypos = windowHeight - playerHeight - 30;
+  ypos = ypos - (jumpDelay * 50);
+
+  rect(xpos, ypos, playerWidth, playerHeight, 4);
 }
 
+function displayGround() {
+  rectMode(CENTER);
+  stroke(0,0,0);
+  strokeWeight(2);
+  fill(0,0,0);
+  rect(0, windowHeight - 45, windowWidth*2, 60, 0);
+}
 //Player never actually moves, obstacles approach from right
-
 function generateEnvironment() {
   //Depends on score, generate obstacles/rewards
-
 }
