@@ -81,6 +81,9 @@
             if(gameName === 'snake/snake') {
                 $("#controller").load('games/snake/snakeController.html');
             }
+            if(gameName === 'InfiniteRunner/infinite-runner') {
+                $("#controller").load('games/InfiniteRunner/runnerController.html');
+            }
             socket.emit("load game", gameName);
         }
 
@@ -155,6 +158,7 @@
             <li><a onclick="loadGame('snake/snake');startInteraction();">Snake</a></li>
             <li><a onclick="loadGame('splash-sketch');startInteraction();">Circles of Circles</a></li>
             <li><a onclick="loadGame('draw');startInteraction();">Draw with friends</a></li>
+            <li><a onclick="loadGame('InfiniteRunner/infinite-runner'); startInteraction();">Runner</a></li>
         </ul>
     </nav>
 
